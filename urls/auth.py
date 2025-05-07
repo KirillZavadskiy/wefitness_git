@@ -5,10 +5,10 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from settings import ACCESS_TOKEN_EXPIRE_MINUTES
 from db_connect import get_db
 from models.core_models import User
 from models.pydentic_models import CreateUser, Token, UserLogin
+from settings import ACCESS_TOKEN_EXPIRE_MINUTES
 from view.authenticate import authenticate_user
 from view.confirm_user import confirm_user
 from view.get_token import create_access_token

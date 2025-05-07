@@ -5,9 +5,9 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from celery_email.tasks import send_txt
-from settings import ACCESS_TOKEN_EXPIRE_MINUTES
 from models.core_models import User
 from models.pydentic_models import CreateUser
+from settings import ACCESS_TOKEN_EXPIRE_MINUTES
 from view.get_token import create_access_token
 
 

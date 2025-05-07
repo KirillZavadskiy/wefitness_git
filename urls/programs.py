@@ -4,7 +4,7 @@ from fastapi import APIRouter, Depends
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-# from celery_email.tasks import send_xlxs_progress
+from celery_email.tasks import send_xlxs_progress
 from db_connect import get_db
 from models.core_models import TrainingProgram, User
 from models.pydentic_models import (ChangeBodyProgramSelect, ProgramSelect,
@@ -12,6 +12,7 @@ from models.pydentic_models import (ChangeBodyProgramSelect, ProgramSelect,
 from view.get_user import get_current_user
 from view.setup_change_body_program import setaup_change_body_program
 from view.setup_progress import setup_progress
+from xlsx_app.create_xlsx import create_progress_xlsx
 
 router = APIRouter(tags=["Main"])
 
@@ -99,3 +100,14 @@ async def change_body_program(
         db=db,
         user=current_user
     )
+
+
+@router.get("/report/generate/")
+async def generate_progress(
+    current_user: Annotated[User, Depends(get_current_user)]
+):
+    file_name = await create_progress_xlsx(user=current_user)
+    send_xlxs_progress.delay(email=current_user.email, file=file_name)
+    return {
+        "response": "Прогресс отправлен на почту"
+    }

@@ -2,9 +2,9 @@ from fastapi import HTTPException
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from settings import pwd_context
 from models.core_models import User
 from models.pydentic_models import UserLogin
+from settings import pwd_context
 
 
 async def verify_password(plain_password, hashed_password):
