@@ -1,7 +1,7 @@
 import datetime
 
-from sqlalchemy import (Boolean, Column, DateTime, ForeignKey, Integer, String,
-                        Table, Float)
+from sqlalchemy import (Boolean, Column, DateTime, Float, ForeignKey, Integer,
+                        String, Table)
 from sqlalchemy.orm import DeclarativeBase, relationship
 from sqlalchemy.sql import func
 

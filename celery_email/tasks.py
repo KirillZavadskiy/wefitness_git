@@ -32,3 +32,29 @@ def send_txt(to_email: str, token: str):
             password={EMAIL_PASSWORD},
         )
         smtp.send_message(msg=message)
+
+
+@shared_task
+def send_xlxs_progress(email: str, file_name: str):
+    message = EmailMessage()
+    message["From"] = "zavad93@mail.ru"
+    message["To"] = email
+    message["Subject"] = "Ваш прогресс."
+    with open(file_name, "rb") as f:
+        file_data = f.read()
+    message.add_attachment(
+        file_data,
+        maintype="application",
+        subtype="xlsx",
+        filename=file_name
+    )
+
+    with smtplib.SMTP_SSL(
+        host="smtp.mail.ru",
+        port=465
+    ) as smtp:
+        smtp.login(
+            user="zavad93@mail.ru",
+            password="hjxsDJnT2hxVTxFctvii",
+        )
+        smtp.send_message(msg=message)
