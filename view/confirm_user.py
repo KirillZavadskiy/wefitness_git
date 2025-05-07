@@ -2,9 +2,9 @@ import jwt
 from fastapi import HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from settings import ALGORITHM, SECRET_KEY, pwd_context
 from models.core_models import User
 from models.pydentic_models import TokenData
+from settings import ALGORITHM, SECRET_KEY, pwd_context
 
 
 async def confirm_user(db: AsyncSession, token: str) -> None:
