@@ -1,7 +1,7 @@
 from typing import Annotated
 
 from annotated_types import MaxLen, MinLen
-from pydantic import BaseModel
+from pydantic import BaseModel, EmailStr
 
 
 class UserBase(BaseModel):
@@ -12,14 +12,12 @@ class UserBase(BaseModel):
 class CreateUser(BaseModel):
     username: Annotated[str, MinLen(2), MaxLen(20)]
     password: Annotated[str, MinLen(2), MaxLen(20)]
-    email: str
+    email: EmailStr
 
 
-class UserLogin(CreateUser):
-    pass
+UserLogin = CreateUser
 
-
-UserAuth = UserLogin
+UserAuth = CreateUser
 
 
 class Token(BaseModel):
@@ -46,4 +44,4 @@ class ChangeBodyProgramSelect(BaseModel):
 
 
 class Email(BaseModel):
-    email: str
+    email: EmailStr
