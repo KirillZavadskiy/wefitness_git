@@ -3,4 +3,6 @@
 alembic
 .vscode
 alembic.ini
-__pycache__
+__pycache__/
+venv/
+.exe.stackdump
