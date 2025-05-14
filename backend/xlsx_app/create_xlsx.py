@@ -30,9 +30,5 @@ async def create_progress_xlsx(user: User):
     sheet["A10"] = f"{user.points}"
     file_name = "my_progress.xlsx"
     wb.save(file_name)
-    # with NamedTemporaryFile() as tmp:
-    #     wb.save(tmp.name)
-    #     tmp.seek(0)
-    #     stream = tmp.read()
-    # tmp.name = file_name
+
     return file_name

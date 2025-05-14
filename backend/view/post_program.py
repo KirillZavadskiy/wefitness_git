@@ -1,33 +1,41 @@
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
+from fastapi import HTTPException
 
 from backend.models.core_models import TrainingProgram, User
 from backend.models.pydentic_models import ProgramSelect
 
 
-async def post_program(
+async def update_program(
         user: User,
         program_title: ProgramSelect,
         db: AsyncSession
 ):
     '''НЕДОПИСАННАЯ ФУНКЦИЯ.'''
-    tp: TrainingProgram = await db.scalar(
+    t_program: TrainingProgram = await db.scalar(
         select(TrainingProgram).where(
             TrainingProgram.template_name == program_title.template_name
         )
     )
-    utp: User = await db.scalar(
+    user_tp: User = await db.scalar(
         select(User).where(
             user.training_programs == program_title.template_name
         )
     )
-    if tp and utp:
-        #
-        #
-        #
+    if user_tp:
+        raise HTTPException(
+            status_code=400,
+            detail="Данная программа уже выбрана."
+        )
+
+    if t_program:
+        t_program.users_training_programs.append(user)
+        db.add(t_program)
         await db.commit()
         return {
-            "id": user.id,
-            "username": user.username
+            "program_name": t_program.template_name,
         }
-    return False
+    raise HTTPException(
+        status_code=400,
+        detail="Выберите программу тренировок из списка - Грудь, Спина, Ноги."
+    )

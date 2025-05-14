@@ -4,6 +4,7 @@ from fastapi import APIRouter, Depends
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from backend.view.post_program import update_program
 from celery_app.celery_email.tasks import send_xlxs_progress
 from backend.db_connect import get_db
 from backend.models.core_models import TrainingProgram, User
@@ -41,11 +42,16 @@ async def profile(
 
 @router.post("/programs/select", status_code=200)
 async def select_program(
-    program_title: ProgramSelect,
+    current_user: Annotated[User, Depends(get_current_user)],
+    template_name: ProgramSelect,
     db: AsyncSession = Depends(get_db)
 ):
     '''НЕДОПИСАННАЯ ФУНКЦИЯ.'''
-    return 1
+    return await update_program(
+        user=current_user,
+        program_title=template_name,
+        db=db
+    )
 
 
 @router.get("/programs/my-programs/")

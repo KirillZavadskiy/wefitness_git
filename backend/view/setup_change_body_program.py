@@ -16,6 +16,9 @@ async def setaup_change_body_program(
         )
     )
     progress: Progress = Progress(
+        start_value=0,
+        target_value=0,
+        current_value=0,
         value=0,
         user_id=user.id,
         change_body_program_id=change_body_program.id
