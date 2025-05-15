@@ -2,8 +2,8 @@ from fastapi import HTTPException
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from backend.models.core_models import Progress, User
-from backend.models.pydentic_models import ProgressUpdate
+from models.core_models import Progress, User
+from models.pydentic_models import ProgressUpdate
 
 
 async def setup_progress(

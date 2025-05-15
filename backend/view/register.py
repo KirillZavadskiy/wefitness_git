@@ -4,11 +4,11 @@ from fastapi import HTTPException
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from models.core_models import User
+from models.pydentic_models import CreateUser
+from settings import ACCESS_TOKEN_EXPIRE_MINUTES
+from view.get_token import create_access_token
 from celery_app.celery_email.tasks import send_txt
-from backend.models.core_models import User
-from backend.models.pydentic_models import CreateUser
-from backend.settings import ACCESS_TOKEN_EXPIRE_MINUTES
-from backend.view.get_token import create_access_token
 
 
 async def register(db: AsyncSession, user_data: CreateUser):

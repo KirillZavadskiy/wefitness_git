@@ -4,8 +4,8 @@ from email.message import EmailMessage
 from celery import shared_task
 from starlette.templating import Jinja2Templates
 
-from celery_app.settings import (EMAIL_HOST, EMAIL_PASSWORD, EMAIL_PORT,
-                                 EMAIL_USERNAME, FRONTEND_URL)
+from settings import (EMAIL_HOST, EMAIL_PASSWORD, EMAIL_PORT,
+                      EMAIL_USERNAME, FRONTEND_URL)
 
 
 @shared_task

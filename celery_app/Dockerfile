@@ -1,5 +1,5 @@
 FROM python:3.11
 
-WORKDIR /app
+WORKDIR /celery_app
 COPY . .
-CMD celery -A celery_app.celery_email.celery_app worker --loglevel=INFO -P gevent
+CMD celery -A celery_email.celery_app worker --loglevel=INFO -P gevent

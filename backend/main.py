@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 
-from backend.urls.auth import auth_router
-from backend.urls.programs import router as programs_router
+from urls.auth import auth_router
+from urls.programs import router as programs_router
 
 app = FastAPI()
 

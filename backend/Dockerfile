@@ -1,7 +1,7 @@
 FROM python:3.11
 
-WORKDIR /app
+WORKDIR /backend
 COPY requirements.txt .
 RUN pip install -r requirements.txt --no-cache-dir
 COPY . .
-CMD ["uvicorn", "main:app", "--reload"] 
+CMD ["uvicorn", "backend.main:app", "--reload"] 
