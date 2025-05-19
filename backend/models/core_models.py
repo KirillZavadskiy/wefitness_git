@@ -1,12 +1,10 @@
 import datetime
-# from typing import Optional
 
 from sqlalchemy import (Boolean, Column, DateTime, Float, ForeignKey, Integer,
                         String, Table)
 from sqlalchemy.ext.asyncio import AsyncAttrs
 from sqlalchemy.orm import DeclarativeBase, relationship
 from sqlalchemy.sql import func
-# from sqlalchemy.orm import Mapped
 
 
 class Base(AsyncAttrs, DeclarativeBase):
@@ -29,21 +27,6 @@ user_mtm_training_table = Table(
         primary_key=True
     ),
 )
-
-
-# class User_mtm_TrainingProgram(Base):
-
-#     __tablename__ = "user_mtm_training_programs"
-
-#     training_programs_id = Column(
-#         ForeignKey('training_programs.id', cascade="CASCADE"),
-#         primary_key=True
-#     )
-#     users_id = Column(
-#         ForeignKey('users.id', cascade="CASCADE"),
-#         primary_key=True
-#     )
-#     extra_data: Mapped[Optional[str]]
 
 
 class User(Base):

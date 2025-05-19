@@ -1,17 +1,16 @@
 from typing import Annotated
 
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from backend.view.post_program import update_program
-from celery_app.celery_email.tasks import send_xlxs_progress
+from backend.celery_app.celery_email.tasks import send_xlxs_progress
 from backend.db_connect import get_db
 from backend.models.core_models import TrainingProgram, User
-from backend.models.pydentic_models import (
-    ChangeBodyProgramSelect, ProgramSelect, ProgressUpdate
-)
+from backend.models.pydentic_models import (ChangeBodyProgramSelect,
+                                            ProgramSelect, ProgressUpdate)
 from backend.view.get_user import get_current_user
+from backend.view.post_program import update_program
 from backend.view.setup_change_body_program import setaup_change_body_program
 from backend.view.setup_progress import setup_progress
 from backend.xlsx_app.create_xlsx import create_progress_xlsx
@@ -84,7 +83,12 @@ async def all_programs(
 async def progress_get(
     current_user: Annotated[User, Depends(get_current_user)]
 ):
-    return f"{current_user.progresses.value}%"
+    if current_user.progresses.value:
+        return f"{current_user.progresses.value}%"
+    raise HTTPException(
+        status_code=400,
+        detail="Вы не выставили цель."
+    )
 
 
 @router.post("/progress/")
