@@ -2,7 +2,7 @@ from datetime import datetime, timedelta, timezone
 
 import jwt
 
-from settings import ALGORITHM, SECRET_KEY
+from backend.settings import ALGORITHM, SECRET_KEY
 
 
 async def create_access_token(

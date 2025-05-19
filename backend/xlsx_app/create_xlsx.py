@@ -1,6 +1,6 @@
 from openpyxl import Workbook
 
-from models.core_models import User
+from backend.models.core_models import User
 
 
 async def create_progress_xlsx(user: User):

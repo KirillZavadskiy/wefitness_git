@@ -5,10 +5,10 @@ from fastapi import Depends, HTTPException, status
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from db_connect import get_db
-from models.pydentic_models import TokenData
-from settings import ALGORITHM, SECRET_KEY
-from view.authenticate import get_user
+from backend.db_connect import get_db
+from backend.models.pydentic_models import TokenData
+from backend.settings import ALGORITHM, SECRET_KEY
+from backend.view.authenticate import get_user
 
 http_bearer = HTTPBearer()
 

@@ -2,8 +2,8 @@ from fastapi import HTTPException
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from models.core_models import TrainingProgram, User
-from models.pydentic_models import ProgramSelect
+from backend.models.core_models import TrainingProgram, User
+from backend.models.pydentic_models import ProgramSelect
 
 
 async def update_program(

@@ -4,15 +4,15 @@ from typing import Annotated
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from db_connect import get_db
-from models.core_models import User
-from models.pydentic_models import (CreateUser, OAuth2My, Token,
-                                    UserLogin)
-from settings import ACCESS_TOKEN_EXPIRE_MINUTES
-from view.authenticate import authenticate_user
-from view.confirm_user import confirm_user
-from view.get_token import create_access_token
-from view.register import register
+from backend.db_connect import get_db
+from backend.models.core_models import User
+from backend.models.pydentic_models import (CreateUser, OAuth2My, Token,
+                                            UserLogin)
+from backend.settings import ACCESS_TOKEN_EXPIRE_MINUTES
+from backend.view.authenticate import authenticate_user
+from backend.view.confirm_user import confirm_user
+from backend.view.get_token import create_access_token
+from backend.view.register import register
 
 auth_router = APIRouter(tags=["Auth"])
 
