@@ -1,0 +1,13 @@
+idea
+.git
+/venv
+postgres-data
+pycache/
+*.pyc
+.gitignore
+.env-example
+docker-compose.yaml
+Dockerfile
+.dockerignore
+/tests
+.env

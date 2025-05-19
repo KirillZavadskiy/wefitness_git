@@ -3,11 +3,6 @@ volumes:
 
 services:
 
-  redis:
-    container_name: redis_conteiner
-    image: redis:latest
-    ports:
-      - "6379:6379"
   db:
     container_name: postgres_conteiner
     image: postgres:17-alpine
@@ -17,6 +12,27 @@ services:
       - "5432:5432"
     volumes:
       - pg_data:/var/lib/postgresql/data
+    networks:
+      - app-network
+
+  redis:
+    container_name: redis_conteiner
+    image: redis:latest
+    ports:
+      - "6379:6379"
+    networks:
+      - app-network
+  
+  backend:
+    container_name: backend
+    build: .
+    ports:
+      - 8001:8000
+      - 5556:5555
+    env_file: .env
+    depends_on:
+      - db
+      - redis
     networks:
       - app-network
 
