@@ -3,7 +3,7 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from backend.models.core_models import User
-from backend.models.pydentic_models import UserLogin
+from backend.models.pydantic_models import UserLogin
 from backend.settings import pwd_context
 
 
