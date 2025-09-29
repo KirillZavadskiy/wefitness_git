@@ -2,7 +2,7 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from backend.models.core_models import ChangeBodyProgram, Progress, User
-from backend.models.pydentic_models import ChangeBodyProgramSelect
+from backend.models.pydantic_models import ChangeBodyProgramSelect
 
 
 async def setaup_change_body_program(

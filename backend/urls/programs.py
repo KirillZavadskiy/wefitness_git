@@ -1,13 +1,16 @@
+import asyncio
+import json
 from typing import Annotated
 
+from redis.asyncio import Redis
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from backend.celery_app.celery_email.tasks import send_xlxs_progress
-from backend.db_connect import get_db
+from backend.db_connect import get_db, get_redis
 from backend.models.core_models import TrainingProgram, User
-from backend.models.pydentic_models import (ChangeBodyProgramSelect,
+from backend.models.pydantic_models import (ChangeBodyProgramSelect,
                                             ProgramSelect, ProgressUpdate)
 from backend.view.get_user import get_current_user
 from backend.view.post_program import update_program
@@ -34,8 +37,20 @@ async def read_users_me(
 
 @router.get("/points/")
 async def profile(
-    current_user: Annotated[User, Depends(get_current_user)]
+    current_user: Annotated[User, Depends(get_current_user)],
+    redis_client: Annotated[Redis, Depends(get_redis)],
 ):
+    print(await redis_client.info())
+    cash_value = await redis_client.get(f"get_points {current_user.username}")
+    if cash_value:
+        return json.loads(cash_value)
+
+    await redis_client.set(
+        f"get_points {current_user.username}",
+        json.dumps(current_user.points),
+        ex=1000
+    )
+    await asyncio.sleep(4)
     return current_user.points
 
 
@@ -45,7 +60,6 @@ async def select_program(
     template_name: ProgramSelect,
     db: AsyncSession = Depends(get_db)
 ):
-    '''НЕДОПИСАННАЯ ФУНКЦИЯ.'''
     return await update_program(
         user=current_user,
         program_title=template_name,
@@ -70,21 +84,39 @@ async def my_programs(
 
 @router.get("/programs/")
 async def all_programs(
+    redis_client: Redis = Depends(get_redis),
     db: AsyncSession = Depends(get_db),
 ):
+    cahe_value = await redis_client.get("get_programs")
+    if cahe_value:
+        return json.loads(cahe_value)
+
     tp_list = []
     all_tp = await db.execute(select(TrainingProgram))
     for tp in all_tp.scalars():
         tp_list.append(tp.template_name)
+
+    redis_client.set("get_programs", json.dumps(tp_list))
+    redis_client.expire("get_programs", 10)
     return tp_list
 
 
 @router.get("/progress/")
 async def progress_get(
-    current_user: Annotated[User, Depends(get_current_user)]
+    current_user: Annotated[User, Depends(get_current_user)],
+    redis_client: Annotated[Redis, Depends(get_redis)],
 ):
+    cahe_value = redis_client.get(f"get_progress {current_user.username}")
+    if cahe_value:
+        return json.loads(cahe_value)
+
     if current_user.progresses.value:
+        redis_client.set(
+            f"get_progress {current_user.username}",
+            json.dumps(current_user.progresses.value)
+        )
         return f"{current_user.progresses.value}%"
+
     raise HTTPException(
         status_code=400,
         detail="Вы не выставили цель."

@@ -1,12 +1,11 @@
 from datetime import timedelta
 from typing import Annotated
-
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from backend.db_connect import get_db
 from backend.models.core_models import User
-from backend.models.pydentic_models import (CreateUser, OAuth2My, Token,
+from backend.models.pydantic_models import (CreateUser, OAuth2My, Token,
                                             UserLogin)
 from backend.settings import ACCESS_TOKEN_EXPIRE_MINUTES
 from backend.view.authenticate import authenticate_user
@@ -54,7 +53,7 @@ async def login_for_access_token(
             headers={"WWW-Authenticate": "Bearer"},
         )
     access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
-    access_token = await create_access_token(
+    access_token = create_access_token(
         data={"sub": user.username}, expires_delta=access_token_expires
     )
     return Token(access_token=access_token, token_type="bearer")

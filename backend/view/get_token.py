@@ -5,7 +5,7 @@ import jwt
 from backend.settings import ALGORITHM, SECRET_KEY
 
 
-async def create_access_token(
+def create_access_token(
         data: dict,
         expires_delta: timedelta | None = None
 ):

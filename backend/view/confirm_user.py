@@ -4,7 +4,7 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from backend.models.core_models import User
-from backend.models.pydentic_models import TokenData
+from backend.models.pydantic_models import TokenData
 from backend.settings import ALGORITHM, SECRET_KEY
 
 

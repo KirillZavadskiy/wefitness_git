@@ -1,4 +1,4 @@
-import datetime
+# import datetime
 
 from sqlalchemy import (Boolean, Column, DateTime, Float, ForeignKey, Integer,
                         String, Table)
@@ -60,7 +60,7 @@ class Comment(Base):
     content = Column(String)
     created_at = Column(
         DateTime(timezone=True),
-        server_default=func.now() + datetime.timedelta(hours=3)
+        server_default=func.now() # + datetime.timedelta()  # hours=3
     )
     user_id = Column(Integer, ForeignKey("users.id"))
     users_comments = relationship(

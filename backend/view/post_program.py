@@ -3,7 +3,7 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from backend.models.core_models import TrainingProgram, User
-from backend.models.pydentic_models import ProgramSelect
+from backend.models.pydantic_models import ProgramSelect
 
 
 async def update_program(
@@ -11,7 +11,6 @@ async def update_program(
         program_title: ProgramSelect,
         db: AsyncSession
 ):
-    '''НЕДОПИСАННАЯ ФУНКЦИЯ.'''
     t_program: TrainingProgram = await db.scalar(
         select(TrainingProgram).where(
             TrainingProgram.template_name == program_title.template_name

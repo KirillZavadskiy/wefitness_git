@@ -6,7 +6,7 @@ from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from backend.db_connect import get_db
-from backend.models.pydentic_models import TokenData
+from backend.models.pydantic_models import TokenData
 from backend.settings import ALGORITHM, SECRET_KEY
 from backend.view.authenticate import get_user
 
